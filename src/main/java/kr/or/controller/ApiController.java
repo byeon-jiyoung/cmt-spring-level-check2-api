@@ -2,6 +2,8 @@ package kr.or.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +24,9 @@ public class ApiController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
-	public List<Total> api(Model model, HttpServletRequest request) {
+	public List<Total> api(Model model, HttpServletRequest request, HttpSession session) {
 		logger.info("api controller");
 		
-System.out.println(request.getRequestURI());
-System.out.println("api");
-		
-		model.addAttribute("authority", "authority");
-
 		List<Total> totalList = ordersDao.selectTotalList();
 		
         return totalList;

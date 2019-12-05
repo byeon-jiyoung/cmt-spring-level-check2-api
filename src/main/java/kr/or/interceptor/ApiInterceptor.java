@@ -9,17 +9,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 public class ApiInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		System.out.println("pre");
-		return super.preHandle(request, response, handler);
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		if(request.getParameter("id").equals("testId") && request.getParameter("pw").equals("testPw") ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		super.postHandle(request, response, handler, modelAndView);
 	}
-	
+
 }
