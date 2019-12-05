@@ -99,7 +99,7 @@
 			<version>2.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- jsp에서 논리구문, for 이런걸 쓰기 위해 사용 -->
+		<!-- jsp에서 jstl을 사용하기 위해 사용 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
