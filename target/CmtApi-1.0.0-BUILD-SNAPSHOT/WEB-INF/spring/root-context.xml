@@ -9,12 +9,15 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- Tomcat 은 Web Application 단위로 ContextPath 를 제공한다. 즉, 경로상의 /src/webapp 가 Class Path(=root path) -->
+	<context:property-placeholder location="classpath:/dataSource.properties"/>
+	
 	<!-- DataSource 설정 -->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
-        <property name="driverClass" value="org.mariadb.jdbc.Driver" />
-        <property name="url" value="jdbc:mariadb://localhost:3306/springtest"/>
-        <property name="username" value="root" />
-        <property name="password" value="rootroot" />
+        <property name="driverClass" value="${jdbc.driverClass}" />
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
-		
+	
 </beans>

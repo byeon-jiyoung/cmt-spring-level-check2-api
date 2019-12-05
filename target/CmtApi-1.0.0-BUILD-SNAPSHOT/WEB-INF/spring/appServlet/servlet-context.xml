@@ -21,8 +21,14 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="kr.or.controller" />
+	<beans:bean id="apiInterceptor" class="kr.or.interceptor.ApiInterceptor" />
+	<interceptors>
+		<interceptor>
+			<mapping path="/orders"/>
+			<beans:ref bean="apiInterceptor"/>
+		</interceptor>
+	</interceptors>
 	
-	
-	
+	<context:component-scan base-package="kr.or.controller" /> <!-- 이 패키지 안에 있는 애는 자동으로 bean으로 인식 -->
+	<context:component-scan base-package="kr.or.dao" /> 
 </beans:beans>
