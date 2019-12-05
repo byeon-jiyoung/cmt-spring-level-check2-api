@@ -10,7 +10,8 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if(request.getParameter("id").equals("testId") && request.getParameter("pw").equals("testPw") ) {
+		if(request.getParameter("auth").equals("testId")) {
+			request.getSession().setAttribute("Auth", request.getParameter("auth"));
 			return true;
 		} else {
 			return false;

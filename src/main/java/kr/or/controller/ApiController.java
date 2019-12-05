@@ -1,5 +1,6 @@
 package kr.or.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,15 +21,17 @@ public class ApiController {
 	private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 	
 	@Autowired
-	TotalDao ordersDao;
+	TotalDao totalDao;
 	
 	@ResponseBody
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	public List<Total> api(Model model, HttpServletRequest request, HttpSession session) {
 		logger.info("api controller");
 		
-		List<Total> totalList = ordersDao.selectTotalList();
-		
-        return totalList;
+		List<Total> totalList = new ArrayList<Total>();
+		if(request.getSession().getAttribute("Auth").equals("testId")) {
+			totalList = totalDao.selectTotalList();
+		}
+		return totalList;
 	}
 }
