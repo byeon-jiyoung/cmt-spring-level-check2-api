@@ -29,18 +29,17 @@ public class TotalDaoImpl implements TotalDao {
 		String sql = "select orders.orders_number, orders.customer_number, customer.customer_name, orders.product_number, product.product_name\r\n"
 				+ "from orders join product on product.product_number = orders.product_number join customer on customer.customer_number = orders.customer_number";
 
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			ResultSet resultSet = preparedStatement.executeQuery();
-
+		try (Connection connection = dataSource.getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			 ResultSet resultSet = preparedStatement.executeQuery();) {
+			
 			while (resultSet.next()) {
 				totalList.add(getTotal(resultSet));
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 		return totalList;
 	}
 	
