@@ -7,6 +7,8 @@ public class Total {
 	private int productNumber;
 	private String productName;
 	
+	public Total() {}
+
 	public Total(int orderNumber, int customerNumber, String customerName, int productNumber, String productName) {
 		this.orderNumber = orderNumber;
 		this.customerNumber = customerNumber;

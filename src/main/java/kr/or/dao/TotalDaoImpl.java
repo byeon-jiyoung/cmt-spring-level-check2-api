@@ -10,6 +10,8 @@ import javax.sql.DataSource;
 import org.mariadb.jdbc.internal.queryresults.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import kr.or.domain.Customer;
 import kr.or.domain.Orders;
 import kr.or.domain.Total;
 
@@ -46,5 +48,20 @@ public class TotalDaoImpl implements TotalDao {
 	private Total getTotal(ResultSet resultSet) throws SQLException {
 		return new Total(resultSet.getInt("orders.orders_number"), resultSet.getInt("orders.customer_number"),
 						 resultSet.getString("customer.customer_name"), resultSet.getInt("orders.product_number"), resultSet.getString("product.product_name"));
+	}
+
+	@Override
+	public void updateCustomer(Customer customer) throws SQLException {
+		String sql = "update customer set customer_number=?, customer_name=? where customer_number=?";
+		int res = -1;
+		
+		try(Connection connection = dataSource.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+			preparedStatement.setInt(1, customer.getCustomerNumber());
+			preparedStatement.setString(2, customer.getCustomerName());
+			preparedStatement.setInt(3, customer.getCustomerNumber());
+			
+			res = preparedStatement.executeUpdate();
+		}
 	}
 }
