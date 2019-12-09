@@ -3,8 +3,10 @@ package kr.or.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +46,13 @@ public class ApiController {
 
 		return "api/upload";
 	}
-
+	
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String uploadPost(@RequestParam String fileName) throws SQLException {
+	public String uploadPost(@RequestParam String filePath) throws SQLException {
 		logger.info("uploadPost controller");
 
 		ExcelUpload excelFile = new ExcelUpload();
-		List<Total> totalList = excelFile.readExcelFile(fileName);
+		List<Total> totalList = excelFile.readExcelFile(filePath);
 		
 		for(Total total : totalList) {
 			Customer customer = new Customer();
@@ -60,6 +62,6 @@ public class ApiController {
 			totalService.updateCustomer(customer);
 		}
 		
-		return "api/upload";
+		return "/api/uploadPost";
 	}
 }

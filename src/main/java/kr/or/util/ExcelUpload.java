@@ -25,19 +25,17 @@ public class ExcelUpload {
 		this.list = list;
 	}
 
-	public List<Total> readExcelFile(String fileName) {
+	public List<Total> readExcelFile(String filePath) {
 		try {
-			File file = new File("c:/shop/" + fileName);
+			File file = new File("c:/shop/" + filePath);
 			FileInputStream fileInputStream = new FileInputStream(file);
 			Workbook workbook = null;
 			
 			// 파일의 확장자가 .XLS 라면 HSSFWorkbook에, .XLSX라면 XSSFWorkbook에 각각 초기화 시켜야 한다.
 			if (file.getName().toLowerCase().endsWith("xlsx")) { // 엑셀 파일의 확장자(버전)에 따라서 생성해야 할 Workbook 객체가 다르다.
 				workbook = new XSSFWorkbook(fileInputStream);
-
 			}else{
 				workbook = new HSSFWorkbook(fileInputStream);
-
 			}
 			Sheet sheet = workbook.getSheetAt(0); //첫번째 Sheet
 

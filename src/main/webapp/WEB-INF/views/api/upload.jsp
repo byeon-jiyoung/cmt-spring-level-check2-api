@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form action="${pageContext.request.contextPath}/api/upload" method="post">
-		<input type="file" name="fileName">
+		<input type="file" name="filePath">
 		<input type="submit" value="파일등록">
 	</form>
 </body>
