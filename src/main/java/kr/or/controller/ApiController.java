@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import kr.or.dao.TotalDao;
 import kr.or.domain.Customer;
 import kr.or.domain.Total;
-import kr.or.util.ExcelFile;
+import kr.or.service.TotalService;
+import kr.or.util.ExcelUpload;
 
 @Controller
 public class ApiController {
 	private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 
 	@Autowired
-	TotalDao totalDao;
+	TotalService totalService;
 
 	@ResponseBody
 	@RequestMapping(value = "/orders", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class ApiController {
 
 		List<Total> totalList = new ArrayList<Total>();
 		if (request.getSession().getAttribute("Auth").equals("testId")) {
-			totalList = totalDao.selectTotalList();
+			totalList = totalService.selectTotalList();
 		}
 		return totalList;
 	}
@@ -49,46 +49,17 @@ public class ApiController {
 	public String uploadPost(@RequestParam String fileName) throws SQLException {
 		logger.info("uploadPost controller");
 
-		ExcelFile excelFile = new ExcelFile();
-		List<Total> list = excelFile.readExcelFile(fileName);
+		ExcelUpload excelFile = new ExcelUpload();
+		List<Total> totalList = excelFile.readExcelFile(fileName);
 		
-		System.out.println(list);
-		
-		for(Total total : list) {
-			System.out.println(total.getCustomerNumber());
-			System.out.println(total.getCustomerName());
+		for(Total total : totalList) {
 			Customer customer = new Customer();
 			customer.setCustomerNumber(total.getCustomerNumber());
 			customer.setCustomerName(total.getCustomerName());
 			
-			totalDao.updateCustomer(customer);
+			totalService.updateCustomer(customer);
 		}
 		
-		return "redirect:/api/upload";
+		return "api/upload";
 	}
-	
-//	@ResponseBody
-//	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-//	public String uploadPost(MultipartHttpServletRequest request) {
-//		logger.info("uploadPost controller");
-//
-//		MultipartFile excelFile =request.getFile("excelFile");
-//        System.out.println("엑셀 파일 업로드 컨트롤러");
-//        if(excelFile==null || excelFile.isEmpty()){
-//            throw new RuntimeException("엑셀파일을 선택 해 주세요.");
-//        }
-//        System.out.println(excelFile.getOriginalFilename());
-//        File destFile = new File("c:\\"+excelFile.getOriginalFilename());
-//        try{
-//            excelFile.transferTo(destFile);
-//        }catch(IllegalStateException | IOException e){
-//            throw new RuntimeException(e.getMessage(),e);
-//        }
-//        
-////        userService.excelUpload(destFile);
-//        
-//        
-//        return "ssss";
-//
-//	}
 }

@@ -31,4 +31,5 @@
 	
 	<context:component-scan base-package="kr.or.controller" /> <!-- 이 패키지 안에 있는 애는 자동으로 bean으로 인식 -->
 	<context:component-scan base-package="kr.or.dao" /> 
+	<context:component-scan base-package="kr.or.service" />
 </beans:beans>
